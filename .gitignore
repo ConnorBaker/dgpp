@@ -94,3 +94,6 @@ mimo_window_fixture/
 # Serve runtime state (scripts/dgpp_serve.sh STATE_DIR): logs + pid, and the
 # tool-eval-bench .md reports it drops under runs/YYYY/MM/. Never tracked.
 runs/
+# nix build output links
+/result
+/result-*
