@@ -1,0 +1,25 @@
+{
+  "name": "mc16-mtp1",
+  "knobs": [
+    "--queue-limit",
+    "64",
+    "--max-concurrency",
+    "16"
+  ],
+  "ingest": {
+    "docs": 32,
+    "concurrency": 16,
+    "reasoning": "none",
+    "valid_json": 32,
+    "finished_stop": 32,
+    "wall_s": 418.9,
+    "prompt_tokens": 328232,
+    "completion_tokens": 15779,
+    "docs_per_hour": 275,
+    "output_tok_s": 37.7,
+    "request_s_min_max": [
+      61.1,
+      357.8
+    ]
+  }
+}

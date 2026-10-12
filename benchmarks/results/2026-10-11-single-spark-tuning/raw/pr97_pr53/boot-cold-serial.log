@@ -1,0 +1,61 @@
+2026-10-12 02:26:37.942 === nvidia/Qwen3.8-Flash-Next-NVFP4 on 1 node(s) [52f46984494e833e] (deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json): no rank recorded as running; nothing to stop
+2026-10-12 02:26:37.942 === op-stream identity (every rank)
+2026-10-12 02:26:37.942 d41d8cd98f00b204e9800998ecf8427e  /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_rank0.ops
+2026-10-12 02:26:37.942 op streams: identical across 1 ranks
+2026-10-12 02:26:37.942 === logs in /home/connorbaker/dgpp/log/deployments/52f46984494e833e
+2026-10-12 02:26:38.019 === starting nvidia/Qwen3.8-Flash-Next-NVFP4 on 1 node(s) [52f46984494e833e] (deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json)
+2026-10-12 02:26:38.019 === checking for existing rank processes
+2026-10-12 02:26:38.025 === checking deployment readiness on all nodes
+OK   rank 0 (127.0.0.1) platform: Linux aarch64; supported target is Linux/aarch64 GB10
+OK   rank 0 (127.0.0.1) Python: 3.14.7; Python 3.10+ is required
+OK   rank 0 (127.0.0.1) commands: python3, timeout, ldd, ssh, scp, curl, jq
+OK   rank 0 (127.0.0.1) node address: rank 0 address 127.0.0.1 belongs to this host
+OK   rank 0 (127.0.0.1) GPU: NVIDIA GB10, 12.1, [N/A]
+OK   rank 0 (127.0.0.1) logs/staging: /home/connorbaker/dgpp/log/deployments/52f46984494e833e: parent /home/connorbaker/dgpp/log/deployments/52f46984494e833e, 1713.6 GiB free
+OK   rank 0 (127.0.0.1) resident cache: ~/.cache/dgpp/resident: parent /home/connorbaker/.cache/dgpp/resident, 1713.6 GiB free
+OK   rank 0 (127.0.0.1) model cache: /home/connorbaker/.cache/huggingface/hub: parent /home/connorbaker/.cache/huggingface/hub, 1713.6 GiB free
+OK   rank 0 (127.0.0.1) checkpoint: /home/connorbaker/.cache/huggingface/hub/models--nvidia--Qwen3.8-Flash-Next-NVFP4/snapshots/fc694b54fb0174e0913e6adf86691ef85a4ead47: 123.6 GiB; all indexed shards have consistent lengths (not a content hash check)
+OK   rank 0 (127.0.0.1) available memory: 113.5 GiB; startup enforces the exact model memory plan
+OK   rank 0 (127.0.0.1) HTTP port: 127.0.0.1:18080 is available
+OK   rank 0 (127.0.0.1) runtime libraries: all binary dependencies resolve
+OK   rank 0 (127.0.0.1) server version: dgpp-serve 0.1.0 (git unknown, cuda 13.4)
+Preflight: 0 failed check(s). No files were installed and no services were started or stopped.
+2026-10-12 02:26:44.296 === staging dgpp-serve and the config to the peers
+2026-10-12 02:26:44.296 === rank 0 on 127.0.0.1 (HTTP 127.0.0.1:18080, fabric :29970, journal :29971)
+2026-10-12 02:26:44.298 head pid 750448
+2026-10-12 02:26:44.298 === waiting for rank 0 serving (up to 600s); rank 0 log: /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_r0.log
+2026-10-12 02:26:54.299 waiting for rank 0 serving: 10s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:26:54.299 latest rank 0 log: 2026-10-12 02:26:53.169 INFO  qwen loader: rank 0 n-gram table rows [0, 320001446) mmap'ed from the checkpoint (50.03 GiB mapped, scale 0.00019931793)
+2026-10-12 02:27:04.302 waiting for rank 0 serving: 20s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:27:04.302 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:27:14.303 waiting for rank 0 serving: 30s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:27:14.303 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:27:24.306 waiting for rank 0 serving: 40s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:27:24.306 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:27:34.307 waiting for rank 0 serving: 50s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:27:34.308 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:27:44.309 waiting for rank 0 serving: 60s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:27:44.309 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:27:54.310 waiting for rank 0 serving: 70s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:27:54.310 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:28:04.313 waiting for rank 0 serving: 80s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:28:04.313 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:28:14.315 waiting for rank 0 serving: 90s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:28:14.315 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:28:24.316 waiting for rank 0 serving: 100s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:28:24.317 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:28:34.318 waiting for rank 0 serving: 110s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:28:34.318 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:28:44.319 waiting for rank 0 serving: 120s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:28:44.319 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:28:54.400 waiting for rank 0 serving: 130s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:28:54.416 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:29:04.427 waiting for rank 0 serving: 140s elapsed; rank 0 pid 750448 still running
+2026-10-12 02:29:04.452 latest rank 0 log: 2026-10-12 02:27:00.735 INFO  memory ledger: rank 0 after the graph engine — rss 22.21 GiB (anon 0.67, shmem 18.26, file 3.28; locked 14.36); device free 92.78 GiB, node available 93.43 GiB
+2026-10-12 02:29:06.456 rank 0 serving: ok (142s)
+2026-10-12 02:29:06.489 READY — curl http://127.0.0.1:18080/v1/models  (stop: python3 /home/connorbaker/Packages/dgpp/scripts/dgpp-cluster down --config /home/connorbaker/Packages/dgpp/deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json --log-dir /home/connorbaker/dgpp/log/deployments/52f46984494e833e)
+2026-10-12 02:29:07.398 === SIGINT rank 0 (750448) — the stop record releases the peers
+2026-10-12 02:29:08.399 === op-stream identity (every rank)
+2026-10-12 02:29:08.399 d41d8cd98f00b204e9800998ecf8427e  /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_rank0.ops
+2026-10-12 02:29:08.399 op streams: identical across 1 ranks
+2026-10-12 02:29:08.399 === logs in /home/connorbaker/dgpp/log/deployments/52f46984494e833e

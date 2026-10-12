@@ -1,0 +1,22 @@
+{
+  "name": "mc8-mtp1",
+  "knobs": [
+    "--queue-limit",
+    "64",
+    "--max-concurrency",
+    "8"
+  ],
+  "ingest": {
+    "docs": 32,
+    "concurrency": 16,
+    "wall_s": 406.4,
+    "prompt_tokens": 329000,
+    "completion_tokens": 19200,
+    "docs_per_hour": 283,
+    "output_tok_s": 47.2,
+    "request_s_min_max": [
+      117.5,
+      253.0
+    ]
+  }
+}

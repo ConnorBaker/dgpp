@@ -1,0 +1,26 @@
+{
+  "name": "mc8-mtp1-early",
+  "knobs": [
+    "--queue-limit",
+    "64",
+    "--max-concurrency",
+    "8",
+    "--prefill-early-admission"
+  ],
+  "ingest": {
+    "docs": 32,
+    "concurrency": 16,
+    "reasoning": "none",
+    "valid_json": 32,
+    "finished_stop": 32,
+    "wall_s": 358.5,
+    "prompt_tokens": 328232,
+    "completion_tokens": 16053,
+    "docs_per_hour": 321,
+    "output_tok_s": 44.8,
+    "request_s_min_max": [
+      104.5,
+      235.0
+    ]
+  }
+}

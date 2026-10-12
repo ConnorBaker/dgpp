@@ -1,0 +1,29 @@
+{
+  "name": "mc8-mtp1-prefill8k",
+  "knobs": [
+    "--queue-limit",
+    "64",
+    "--max-concurrency",
+    "8",
+    "--prefill-budget-tokens",
+    "8192",
+    "--prefill-idle-budget-tokens",
+    "8192"
+  ],
+  "ingest": {
+    "docs": 32,
+    "concurrency": 16,
+    "reasoning": "low",
+    "valid_json": 0,
+    "finished_stop": 0,
+    "wall_s": 360.2,
+    "prompt_tokens": 329000,
+    "completion_tokens": 19200,
+    "docs_per_hour": 320,
+    "output_tok_s": 53.3,
+    "request_s_min_max": [
+      96.1,
+      226.0
+    ]
+  }
+}

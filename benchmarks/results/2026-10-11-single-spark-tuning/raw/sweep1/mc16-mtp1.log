@@ -1,0 +1,44 @@
+$ python3 /home/connorbaker/Packages/dgpp/scripts/dgpp-cluster down --config /home/connorbaker/Packages/dgpp/deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json
+2026-10-11 23:27:16.739 === nvidia/Qwen3.8-Flash-Next-NVFP4 on 1 node(s) [52f46984494e833e] (deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json): no rank recorded as running; nothing to stop
+2026-10-11 23:27:16.739 === op-stream identity (every rank)
+2026-10-11 23:27:16.742 e1926f487636a57a45089c1705bef50f  /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_rank0.ops
+2026-10-11 23:27:16.742 op streams: identical across 1 ranks
+2026-10-11 23:27:16.742 === logs in /home/connorbaker/dgpp/log/deployments/52f46984494e833e
+$ python3 /home/connorbaker/Packages/dgpp/scripts/dgpp-cluster up --bin /nix/store/k4dy5j6pi1fjmq8dpai05j20hm4p1nd5-dgpp-0.1.0+g1b219ed0ea92.dirty/bin/dgpp-serve --head-wrap nixglhost --knobs --queue-limit 64 --max-concurrency 16 --config /home/connorbaker/Packages/dgpp/deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json
+2026-10-11 23:27:16.794 === starting nvidia/Qwen3.8-Flash-Next-NVFP4 on 1 node(s) [52f46984494e833e] (deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json)
+2026-10-11 23:27:16.794 === checking for existing rank processes
+2026-10-11 23:27:16.796 === checking deployment readiness on all nodes
+OK   rank 0 (127.0.0.1) platform: Linux aarch64; supported target is Linux/aarch64 GB10
+OK   rank 0 (127.0.0.1) Python: 3.14.7; Python 3.10+ is required
+OK   rank 0 (127.0.0.1) commands: python3, timeout, ldd, ssh, scp, curl, jq
+OK   rank 0 (127.0.0.1) node address: rank 0 address 127.0.0.1 belongs to this host
+OK   rank 0 (127.0.0.1) GPU: NVIDIA GB10, 12.1, [N/A]
+OK   rank 0 (127.0.0.1) logs/staging: /home/connorbaker/dgpp/log/deployments/52f46984494e833e: parent /home/connorbaker/dgpp/log/deployments/52f46984494e833e, 1713.8 GiB free
+OK   rank 0 (127.0.0.1) resident cache: ~/.cache/dgpp/resident: parent /home/connorbaker/.cache/dgpp/resident, 1713.8 GiB free
+OK   rank 0 (127.0.0.1) model cache: /home/connorbaker/.cache/huggingface/hub: parent /home/connorbaker/.cache/huggingface/hub, 1713.8 GiB free
+OK   rank 0 (127.0.0.1) checkpoint: /home/connorbaker/.cache/huggingface/hub/models--nvidia--Qwen3.8-Flash-Next-NVFP4/snapshots/fc694b54fb0174e0913e6adf86691ef85a4ead47: 123.6 GiB; all indexed shards have consistent lengths (not a content hash check)
+OK   rank 0 (127.0.0.1) available memory: 113.2 GiB; startup enforces the exact model memory plan
+OK   rank 0 (127.0.0.1) HTTP port: 127.0.0.1:18080 is available
+OK   rank 0 (127.0.0.1) runtime libraries: all binary dependencies resolve
+OK   rank 0 (127.0.0.1) server version: dgpp-serve 0.1.0+g1b219ed0ea92.dirty (git 1b219ed0ea92.dirty, cuda 13.4)
+Preflight: 0 failed check(s). No files were installed and no services were started or stopped.
+2026-10-11 23:27:22.130 === staging dgpp-serve and the config to the peers
+2026-10-11 23:27:22.130 === rank 0 on 127.0.0.1 (HTTP 127.0.0.1:18080, fabric :29970, journal :29971)
+2026-10-11 23:27:22.132 head pid 325733
+2026-10-11 23:27:22.132 === waiting for rank 0 serving (up to 600s); rank 0 log: /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_r0.log
+2026-10-11 23:27:32.134 waiting for rank 0 serving: 10s elapsed; rank 0 pid 325733 still running
+2026-10-11 23:27:32.134 latest rank 0 log: 2026-10-11 23:27:28.190 INFO  qwen loader: rank 0 n-gram table rows [0, 320001446) mmap'ed from the checkpoint (50.03 GiB mapped, scale 0.00019931793)
+2026-10-11 23:27:42.136 waiting for rank 0 serving: 20s elapsed; rank 0 pid 325733 still running
+2026-10-11 23:27:42.136 latest rank 0 log: 2026-10-11 23:27:37.243 INFO  memory ledger: rank 0 after the graph engine — rss 22.86 GiB (anon 0.67, shmem 18.91, file 3.28; locked 14.35); device free 74.30 GiB, node available 92.10 GiB
+2026-10-11 23:27:52.186 waiting for rank 0 serving: 30s elapsed; rank 0 pid 325733 still running
+2026-10-11 23:27:52.206 latest rank 0 log: 2026-10-11 23:27:51.970 INFO  rank 0: graph variant 45 shape: 2250 nodes, 2496 edges: kernel 2250 empty 0 memcpy 0 memset 0 host 0 event 0 other 0; max in-degree 2
+2026-10-11 23:28:02.231 waiting for rank 0 serving: 40s elapsed; rank 0 pid 325733 still running
+2026-10-11 23:28:02.254 latest rank 0 log: 2026-10-11 23:28:01.566 INFO  rank 0: graph variant 27 shape: 1380 nodes, 1479 edges: kernel 1380 empty 0 memcpy 0 memset 0 host 0 event 0 other 0; max in-degree 2
+2026-10-11 23:28:10.266 rank 0 serving: ok (48s)
+2026-10-11 23:28:10.297 READY — curl http://127.0.0.1:18080/v1/models  (stop: python3 /home/connorbaker/Packages/dgpp/scripts/dgpp-cluster down --config /home/connorbaker/Packages/dgpp/deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json --log-dir /home/connorbaker/dgpp/log/deployments/52f46984494e833e)
+$ python3 /home/connorbaker/Packages/dgpp/scripts/dgpp-cluster down --config /home/connorbaker/Packages/dgpp/deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json
+2026-10-11 23:40:37.983 === SIGINT rank 0 (325733) — the stop record releases the peers
+2026-10-11 23:40:43.989 === op-stream identity (every rank)
+2026-10-11 23:40:44.005 55715c8d7707f33a6c1a5dbd5a94f8fb  /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_rank0.ops
+2026-10-11 23:40:44.005 op streams: identical across 1 ranks
+2026-10-11 23:40:44.005 === logs in /home/connorbaker/dgpp/log/deployments/52f46984494e833e

@@ -1,0 +1,27 @@
+{
+  "name": "mc16-mtp3",
+  "knobs": [
+    "--queue-limit",
+    "64",
+    "--max-concurrency",
+    "16",
+    "--mtp-depth",
+    "3"
+  ],
+  "ingest": {
+    "docs": 32,
+    "concurrency": 16,
+    "reasoning": "low",
+    "valid_json": 0,
+    "finished_stop": 0,
+    "wall_s": 455.2,
+    "prompt_tokens": 329000,
+    "completion_tokens": 19200,
+    "docs_per_hour": 253,
+    "output_tok_s": 42.2,
+    "request_s_min_max": [
+      108.6,
+      345.7
+    ]
+  }
+}

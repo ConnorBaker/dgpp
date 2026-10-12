@@ -1,0 +1,37 @@
+2026-10-12 02:47:05.372 === nvidia/Qwen3.8-Flash-Next-NVFP4 on 1 node(s) [52f46984494e833e] (deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json): no rank recorded as running; nothing to stop
+2026-10-12 02:47:05.372 === op-stream identity (every rank)
+2026-10-12 02:47:05.372 f64597bb80cdd2e4631b8ee540356d56  /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_rank0.ops
+2026-10-12 02:47:05.372 op streams: identical across 1 ranks
+2026-10-12 02:47:05.372 === logs in /home/connorbaker/dgpp/log/deployments/52f46984494e833e
+2026-10-12 02:47:05.423 === starting nvidia/Qwen3.8-Flash-Next-NVFP4 on 1 node(s) [52f46984494e833e] (deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json)
+2026-10-12 02:47:05.423 === checking for existing rank processes
+2026-10-12 02:47:05.424 === checking deployment readiness on all nodes
+OK   rank 0 (127.0.0.1) platform: Linux aarch64; supported target is Linux/aarch64 GB10
+OK   rank 0 (127.0.0.1) Python: 3.14.7; Python 3.10+ is required
+OK   rank 0 (127.0.0.1) commands: python3, timeout, ldd, ssh, scp, curl, jq
+OK   rank 0 (127.0.0.1) node address: rank 0 address 127.0.0.1 belongs to this host
+OK   rank 0 (127.0.0.1) GPU: NVIDIA GB10, 12.1, [N/A]
+OK   rank 0 (127.0.0.1) logs/staging: /home/connorbaker/dgpp/log/deployments/52f46984494e833e: parent /home/connorbaker/dgpp/log/deployments/52f46984494e833e, 1708.5 GiB free
+OK   rank 0 (127.0.0.1) resident cache: ~/.cache/dgpp/resident: parent /home/connorbaker/.cache/dgpp/resident, 1708.5 GiB free
+OK   rank 0 (127.0.0.1) model cache: /home/connorbaker/.cache/huggingface/hub: parent /home/connorbaker/.cache/huggingface/hub, 1708.5 GiB free
+OK   rank 0 (127.0.0.1) checkpoint: /home/connorbaker/.cache/huggingface/hub/models--nvidia--Qwen3.8-Flash-Next-NVFP4/snapshots/fc694b54fb0174e0913e6adf86691ef85a4ead47: 123.6 GiB; all indexed shards have consistent lengths (not a content hash check)
+OK   rank 0 (127.0.0.1) available memory: 112.0 GiB; startup enforces the exact model memory plan
+OK   rank 0 (127.0.0.1) HTTP port: 127.0.0.1:18080 is available
+OK   rank 0 (127.0.0.1) runtime libraries: all binary dependencies resolve
+OK   rank 0 (127.0.0.1) server version: dgpp-serve 0.1.0 (git unknown, cuda 13.4)
+Preflight: 0 failed check(s). No files were installed and no services were started or stopped.
+2026-10-12 02:47:10.549 === staging dgpp-serve and the config to the peers
+2026-10-12 02:47:10.549 === rank 0 on 127.0.0.1 (HTTP 127.0.0.1:18080, fabric :29970, journal :29971)
+2026-10-12 02:47:10.550 head pid 804534
+2026-10-12 02:47:10.550 === waiting for rank 0 serving (up to 600s); rank 0 log: /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_r0.log
+2026-10-12 02:47:20.552 waiting for rank 0 serving: 10s elapsed; rank 0 pid 804534 still running
+2026-10-12 02:47:20.552 latest rank 0 log: 2026-10-12 02:47:16.517 INFO  qwen loader: rank 0 n-gram table rows [0, 320001446) mmap'ed from the checkpoint (50.03 GiB mapped, scale 0.00019931793)
+2026-10-12 02:47:30.553 waiting for rank 0 serving: 20s elapsed; rank 0 pid 804534 still running
+2026-10-12 02:47:30.553 latest rank 0 log: 2026-10-12 02:47:23.569 INFO  memory ledger: rank 0 after the graph engine — rss 20.75 GiB (anon 0.67, shmem 16.80, file 3.28; locked 14.36); device free 87.20 GiB, node available 93.03 GiB
+2026-10-12 02:47:34.554 rank 0 serving: ok (24s)
+2026-10-12 02:47:34.554 READY — curl http://127.0.0.1:18080/v1/models  (stop: python3 /home/connorbaker/Packages/dgpp/scripts/dgpp-cluster down --config /home/connorbaker/Packages/dgpp/deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json --log-dir /home/connorbaker/dgpp/log/deployments/52f46984494e833e)
+2026-10-12 02:47:59.183 === SIGINT rank 0 (804534) — the stop record releases the peers
+2026-10-12 02:48:00.184 === op-stream identity (every rank)
+2026-10-12 02:48:00.185 188bdeb1d23beae5142bbaa5e5499374  /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_rank0.ops
+2026-10-12 02:48:00.185 op streams: identical across 1 ranks
+2026-10-12 02:48:00.185 === logs in /home/connorbaker/dgpp/log/deployments/52f46984494e833e

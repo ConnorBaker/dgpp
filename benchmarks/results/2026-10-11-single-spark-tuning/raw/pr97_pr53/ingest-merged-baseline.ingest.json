@@ -1,0 +1,20 @@
+{
+  "name": "ingest-merged-baseline",
+  "knobs": [],
+  "ingest": {
+    "docs": 32,
+    "concurrency": 16,
+    "reasoning": "none",
+    "valid_json": 32,
+    "finished_stop": 32,
+    "wall_s": 336.9,
+    "prompt_tokens": 328179,
+    "completion_tokens": 15688,
+    "docs_per_hour": 342,
+    "output_tok_s": 46.6,
+    "request_s_min_max": [
+      89.9,
+      216.3
+    ]
+  }
+}

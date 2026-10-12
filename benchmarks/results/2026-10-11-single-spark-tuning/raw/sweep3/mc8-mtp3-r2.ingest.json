@@ -1,0 +1,27 @@
+{
+  "name": "mc8-mtp3-r2",
+  "knobs": [
+    "--queue-limit",
+    "64",
+    "--max-concurrency",
+    "8",
+    "--mtp-depth",
+    "3"
+  ],
+  "ingest": {
+    "docs": 32,
+    "concurrency": 16,
+    "reasoning": "none",
+    "valid_json": 32,
+    "finished_stop": 32,
+    "wall_s": 370.4,
+    "prompt_tokens": 328232,
+    "completion_tokens": 15963,
+    "docs_per_hour": 311,
+    "output_tok_s": 43.1,
+    "request_s_min_max": [
+      105.2,
+      236.3
+    ]
+  }
+}

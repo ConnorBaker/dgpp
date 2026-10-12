@@ -1,0 +1,45 @@
+{
+ "first": {
+  "ttft_ms": 18184,
+  "prompt": 31446,
+  "cached": 0
+ },
+ "second": {
+  "ttft_ms": 4314,
+  "prompt": 31447,
+  "cached": 24576
+ },
+ "prefix_cache_deltas": {
+  "enabled": 0,
+  "slots": 0,
+  "min_tokens": 0,
+  "head_cuts": 0,
+  "entries": 6,
+  "hits": 1,
+  "misses": 1,
+  "tokens_saved": 24576,
+  "snapshots": 4,
+  "head_snapshots": 1,
+  "close_entries": 2,
+  "rolling_snapshots": 12,
+  "hop_snapshots": 4,
+  "evictions": 0,
+  "duplicates": 0,
+  "skipped_no_block": 0,
+  "skipped_no_slot": 0,
+  "skipped_hop_fallback": 0,
+  "skipped_hop_mismatch": 0,
+  "skipped_image_bytes": 0,
+  "image_bytes": 0,
+  "blocks_pinned": 2844,
+  "snapshot_bytes": 0,
+  "arena_snapshots": 16,
+  "snapshot_ms_avg": 1.383,
+  "arena_attaches": 1,
+  "attach_ms_avg": 1.932,
+  "ttft_hit_count": 1,
+  "ttft_hit_ms_avg": 4293.946,
+  "ttft_miss_count": 1,
+  "ttft_miss_ms_avg": 18157.726
+ }
+}

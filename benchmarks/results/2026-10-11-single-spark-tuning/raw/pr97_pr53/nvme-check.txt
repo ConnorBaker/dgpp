@@ -1,0 +1,14 @@
+1 document A + Q0 (cold)                     ttft    18000 ms  prompt 31495  cached 0
+   spilled so far: 1
+2 document A + Q1 (memory hit)               ttft    17019 ms  prompt 31495  cached 0
+3.1 document B1 + Q0 (cold, evicting A)      ttft    17239 ms  prompt 31463  cached 0
+3.2 document B2 + Q0 (cold, evicting A)      ttft    17146 ms  prompt 31479  cached 0
+3.3 document B3 + Q0 (cold, evicting A)      ttft    17139 ms  prompt 31471  cached 0
+   arena: 1/1 entries, 6 evictions so far
+4 document A + Q1 (restore from disk)        ttft    17132 ms  prompt 31495  cached 0
+5 document A + Q0 (memory hit after the restore) ttft    17153 ms  prompt 31495  cached 0
+
+nvme_cache: {'spills': 5, 'spilled': 5, 'spill_failed': 0, 'spill_skipped': 0, 'restores': 0, 'restored': 0, 'restore_failed': 0, 'tokens_restored': 0, 'blocks_shared': 0, 'evictions': 0, 'entries': 5, 'pages_used': 2795, 'pages_total': 19553, 'bytes_written': 4911329280, 'bytes_read': 0, 'failures': 0}
+prefix_cache deltas: {'hits': 0, 'misses': 7, 'tokens_saved': 0, 'evictions': 9, 'entries': 1, 'snapshots': 3, 'close_entries': 7}
+restores committed during step 4: 0; step 2 and step 4 transcripts IDENTICAL; restore failures 0, spill failures 0, skipped 0
+FAIL

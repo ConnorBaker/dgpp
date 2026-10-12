@@ -1,0 +1,40 @@
+$ python3 /home/connorbaker/Packages/dgpp/scripts/dgpp-cluster down --config /home/connorbaker/Packages/dgpp/deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json
+2026-10-12 00:22:07.846 === nvidia/Qwen3.8-Flash-Next-NVFP4 on 1 node(s) [52f46984494e833e] (deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json): no rank recorded as running; nothing to stop
+2026-10-12 00:22:07.847 === op-stream identity (every rank)
+2026-10-12 00:22:07.848 83828eb31f3d2e87d6b8cfeb8f7f0570  /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_rank0.ops
+2026-10-12 00:22:07.848 op streams: identical across 1 ranks
+2026-10-12 00:22:07.848 === logs in /home/connorbaker/dgpp/log/deployments/52f46984494e833e
+$ python3 /home/connorbaker/Packages/dgpp/scripts/dgpp-cluster up --bin /nix/store/k4dy5j6pi1fjmq8dpai05j20hm4p1nd5-dgpp-0.1.0+g1b219ed0ea92.dirty/bin/dgpp-serve --head-wrap nixglhost --knobs --queue-limit 64 --max-concurrency 8 --prefill-budget-tokens 8192 --prefill-idle-budget-tokens 16384 --config /home/connorbaker/Packages/dgpp/deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json
+2026-10-12 00:22:07.883 === starting nvidia/Qwen3.8-Flash-Next-NVFP4 on 1 node(s) [52f46984494e833e] (deploy/cluster_qwen-3.8-flash-next_nvfp4_w1.json)
+2026-10-12 00:22:07.883 === checking for existing rank processes
+2026-10-12 00:22:07.886 === checking deployment readiness on all nodes
+OK   rank 0 (127.0.0.1) platform: Linux aarch64; supported target is Linux/aarch64 GB10
+OK   rank 0 (127.0.0.1) Python: 3.14.7; Python 3.10+ is required
+OK   rank 0 (127.0.0.1) commands: python3, timeout, ldd, ssh, scp, curl, jq
+OK   rank 0 (127.0.0.1) node address: rank 0 address 127.0.0.1 belongs to this host
+OK   rank 0 (127.0.0.1) GPU: NVIDIA GB10, 12.1, [N/A]
+OK   rank 0 (127.0.0.1) logs/staging: /home/connorbaker/dgpp/log/deployments/52f46984494e833e: parent /home/connorbaker/dgpp/log/deployments/52f46984494e833e, 1713.8 GiB free
+OK   rank 0 (127.0.0.1) resident cache: ~/.cache/dgpp/resident: parent /home/connorbaker/.cache/dgpp/resident, 1713.8 GiB free
+OK   rank 0 (127.0.0.1) model cache: /home/connorbaker/.cache/huggingface/hub: parent /home/connorbaker/.cache/huggingface/hub, 1713.8 GiB free
+OK   rank 0 (127.0.0.1) checkpoint: /home/connorbaker/.cache/huggingface/hub/models--nvidia--Qwen3.8-Flash-Next-NVFP4/snapshots/fc694b54fb0174e0913e6adf86691ef85a4ead47: 123.6 GiB; all indexed shards have consistent lengths (not a content hash check)
+OK   rank 0 (127.0.0.1) available memory: 112.7 GiB; startup enforces the exact model memory plan
+OK   rank 0 (127.0.0.1) HTTP port: 127.0.0.1:18080 is available
+OK   rank 0 (127.0.0.1) runtime libraries: all binary dependencies resolve
+OK   rank 0 (127.0.0.1) server version: dgpp-serve 0.1.0+g1b219ed0ea92.dirty (git 1b219ed0ea92.dirty, cuda 13.4)
+Preflight: 0 failed check(s). No files were installed and no services were started or stopped.
+2026-10-12 00:22:13.309 === staging dgpp-serve and the config to the peers
+2026-10-12 00:22:13.309 === rank 0 on 127.0.0.1 (HTTP 127.0.0.1:18080, fabric :29970, journal :29971)
+2026-10-12 00:22:13.311 head pid 473807
+2026-10-12 00:22:13.311 === waiting for rank 0 serving (up to 600s); rank 0 log: /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_r0.log
+2026-10-12 00:22:19.312 FAILED waiting for rank 0 serving: rank 0 exited with status 1; log: /home/connorbaker/dgpp/log/deployments/52f46984494e833e/serve_r0.log
+  2026-10-12 00:22:16.166 INFO  rank 0: prefix cache plan — 3 GiB budget, 27 slots of 110.317 MiB, 2.909 GiB allocated; cached K/V blocks share the 262144-token pool
+  2026-10-12 00:22:16.307 INFO  tokenizer: loaded vocab 248044 merges 247587 added 33 (revision 0x53952643d9dcd76d; qwen pattern, NFC, ignore_merges false)
+  2026-10-12 00:22:16.319 INFO  serve: grammar vocabulary built (248320 ids, tool markers present, call-turn EOS 248046)
+  2026-10-12 00:22:16.523 INFO  serve: JSON grammar tables built in 0.20 s
+  2026-10-12 00:22:16.767 INFO  bus: a world of one — no lanes, every collective the identity
+  2026-10-12 00:22:16.895 INFO  rank 0: process memory locked (mlockall MCL_CURRENT, 14715 MiB)
+  2026-10-12 00:22:16.895 INFO  rank 0: resident image cache at /home/connorbaker/.cache/dgpp/resident
+  2026-10-12 00:22:17.085 INFO  rank 0: memory plan for a 262144-token context — model weights (resident; the n-gram table mmap'ed from the checkpoint) 71.02 GiB; loader staging (pinned host, freed when the last layer is resident) 2.41 GiB (2.41 GiB pinned); gemm workspace (at least) 0.06 GiB; dense fp8 prefill bridge (the largest dense matrix in BF16) 0.06 GiB; n-gram table staging (pinned; the table mmap'ed from the checkpoint) 0.04 GiB (0.04 GiB pinned); request slot state (GDN recurrent/conv, PLE conv, context) 0.86 GiB; spec snapshot rows 0.04 GiB; GDN replay rows (checkpoint-and-replay: the post-conv q|k|v, a, beta of every decode row, two copies) 0.18 GiB; kv cache pool (K/V bf16, compressed index keys, rings) 6.70 GiB; activations (hyper state, rows, head) 0.58 GiB (0.02 GiB pinned); layer objects (GR sites, GDN, QSA, PLE) 18.01 GiB; moe scratch (routed slots, shared expert, graph tables) 3.86 GiB (0.04 GiB pinned); draft block (hyper-state window, ring snapshot, fusion scratch, mixer) 2.12 GiB (0.00 GiB pinned); vision tower weights (bf16, replicated) 0.84 GiB; vision workspace (patches, attention tiles, staged image rows) 0.29 GiB; prefix cache 2.91 GiB; engine 0.08 GiB
+  2026-10-12 00:22:17.085 INFO  rank 0: memory plan total 110.06 GiB (104.56 GiB device + 5.50 GiB pinned) + 4.00 GiB headroom against 110.09 GiB free (device free 99.60 GiB of 121.69 GiB, host available 110.09 GiB)
+  2026-10-12 00:22:17.315 ERROR serve: rank 0: the configuration needs 110.06 GiB plus 4.00 GiB headroom but this node has 110.09 GiB free — refusing to allocate (the largest items: model weights (resident; the n-gram table mmap'ed from the checkpoint) 71.02 GiB, layer objects (GR sites, GDN, QSA, PLE) 18.01 GiB, kv cache pool (K/V bf16, compressed index keys, rings) 6.70 GiB). At 58.8 KiB per context token, the largest kv_capacity this node holds as configured is about 191296 tokens. Lower engine.kv_capacity, engine.max_concurrency or engine.prefix_cache_gib, or choose a smaller engine.kv_dtype.
+cluster configuration: rank 0 did not become ready

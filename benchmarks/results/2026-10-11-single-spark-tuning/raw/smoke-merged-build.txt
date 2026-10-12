@@ -1,0 +1,10 @@
+warning: Git tree '/home/connorbaker/Packages/dgpp' is dirty
+PASS models: id=nvidia/Qwen3.8-Flash-Next-NVFP4
+PASS plain chat:   The three primary colors (in the traditional pigment/color model) are:  1. **Red** 2. **
+PASS streaming: chunks=36 done=True
+PASS tool call emitted: [{"id": "call_335f40e8f68584da", "type": "function", "function": {"name": "get_weather", "arguments": "{\"city\": \"Paris\"}"}}]
+PASS tool result used in answer:   The current weather in Paris is **18°C** with **light rain**. 🌧️
+C1: wall 4.1s, tokens 187, aggregate 46.0 tok/s, per-request [4.1]
+C8: wall 20.8s, tokens 2032, aggregate 97.8 tok/s, per-request [9.7, 20.6, 20.8, 10.2, 10.2, 10.2, 20.4, 20.3]
+
+5/5 checks passed
