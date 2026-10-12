@@ -476,6 +476,8 @@ class FakeFrontend : public ModelFrontend {
   // own native control names.
   std::atomic<bool> reads_preserve_thinking{false};
   std::atomic<bool> reads_clear_thinking{false};
+  // Qwen3.8-Flash-Next's template raises on a system message after the first.
+  std::atomic<bool> system_first_only{false};
   bool template_reads(std::string_view name) const override {
     return (name == "reasoning_effort" && reads_reasoning_effort) || (name == "enable_thinking" && reads_enable_thinking) ||
            (name == "preserve_thinking" && reads_preserve_thinking) ||
@@ -519,7 +521,11 @@ class FakeFrontend : public ModelFrontend {
       last_globals_ = json_of(globals);
     }
     std::string out;
-    for (const auto& msg : globals.at("messages").items()) {
+    const auto& messages = globals.at("messages").items();
+    for (size_t i = 1; system_first_only && i < messages.size(); ++i)
+      if (const auto* role = messages[i].find("role"); role && role->as_string() == "system")
+        throw std::runtime_error("System message must be at the beginning.");
+    for (const auto& msg : messages) {
       const auto* content = msg.find("content");
       if (content == nullptr) continue;
       if (content->is_string()) {
@@ -1810,6 +1816,7 @@ DGPP_TEST(serve_api_integerBoundsAndUnsupportedParameters) {
       std::pair{R"(,"modalities":["audio"])", "modalities"},
       std::pair{R"(,"verbosity":"high")", "verbosity"},
       std::pair{R"(,"prompt_cache_options":{"ttl":"30m"})", "prompt_cache_options"},
+      std::pair{R"(,"prompt_cache_retention":"24h")", "prompt_cache_retention"},
       std::pair{R"(,"web_search_options":{})", "web_search_options"},
       std::pair{R"(,"stream_options":{"include_usage":true})", "stream_options"}}) {
     const auto body = "{\"model\":\"" + kModel + R"(","messages":[{"role":"user","content":"abcd"}])" + extra + "}";
@@ -1818,6 +1825,41 @@ DGPP_TEST(serve_api_integerBoundsAndUnsupportedParameters) {
   for (const char* seed : {"9223372036854775807", "-9223372036854775808"}) {
     const auto response = post_chat(rig, chat_body("abcd", 2, std::string(",\"seed\":") + seed), "usage");
     require(response.find("200 OK") != std::string::npos, "int64 boundary seed accepted");
+  }
+  // A cache routing hint (Codex sends one per thread): the prefix cache
+  // matches prompts without it.
+  require(post_chat(rig, chat_body("abcd", 2, R"(,"prompt_cache_key":"thread-1")"), "usage")
+                  .find("200 OK") != std::string::npos,
+          "prompt_cache_key accepted");
+}
+
+DGPP_TEST(serve_api_extraSystemMessagesFoldOnlyWhenTheTemplateRefuses) {
+  // Codex's shape: instructions split over several developer/system
+  // messages, plus one mid-conversation.
+  const std::string body = "{\"model\":\"" + kModel + R"(","max_tokens":2,"messages":[)"
+      R"({"role":"developer","content":[{"type":"text","text":"base"}]},)"
+      R"({"role":"system","content":"perms"},)"
+      R"({"role":"user","content":"abcd"},)"
+      R"({"role":"developer","content":"late"},)"
+      R"({"role":"user","content":"efgh"}]})";
+  {
+    ServiceRig rig;
+    require(post_chat(rig, body, "usage").find("200 OK") != std::string::npos, "accepted as sent");
+    const auto g = rig.frontend.last_globals();
+    require(g.find(R"("content":"perms")") != std::string::npos &&
+                g.find(R"({"role":"system","content":"late"})") != std::string::npos,
+            "a template that renders the messages gets them unchanged: " + g);
+  }
+  {
+    ServiceRig rig;
+    rig.frontend.system_first_only = true;
+    const auto response = post_chat(rig, body, "usage");
+    require(response.find("200 OK") != std::string::npos, "folded request accepted: " + response);
+    const auto g = rig.frontend.last_globals();
+    require(g.find("\"messages\":[{\"role\":\"system\",\"content\":\"base\n\nperms\"},"
+                   R"({"role":"user","content":"abcd"},{"role":"user","content":"late"},)"
+                   R"({"role":"user","content":"efgh"}])") != std::string::npos,
+            "leading run merged, the late one rendered as user: " + g);
   }
 }
 

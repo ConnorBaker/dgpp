@@ -13,6 +13,8 @@
 #include <cstdio>
 #include <ctime>
 #include <limits>
+#include <optional>
+#include <stdexcept>
 #include <utility>
 
 #include "common/log.hpp"
@@ -530,6 +532,76 @@ bool content_form_ok(const dgpp::minijson::Value& v) {
     if (type == nullptr || !type->is_string()) return false;
   }
   return true;
+}
+
+// The text of a system message's content: a string, or text parts only.
+std::optional<std::string> system_text(const dgpp::minijson::Value& content) {
+  if (content.is_string()) return std::string(content.as_string());
+  if (!content.is_array()) return std::nullopt;
+  std::string text;
+  for (const auto& item : content.items()) {
+    if (item.is_string()) {
+      text += item.as_string();
+      continue;
+    }
+    const dgpp::minijson::Value* type = item.find("type");
+    const dgpp::minijson::Value* part_text = item.find("text");
+    if (!type || type->as_string() != "text" || !part_text || !part_text->is_string()) return std::nullopt;
+    text += part_text->as_string();
+  }
+  return text;
+}
+
+// Agent clients (Codex through a Responses bridge) send several system
+// messages, some mid-conversation; templates such as Qwen's accept one, at
+// the start. Merge the leading run into one system message and turn later
+// ones into user messages. nullopt when there is nothing to fold or a
+// system message carries non-text content.
+std::optional<dgpp::minijson::Value> fold_system_messages(const dgpp::minijson::Value& globals) {
+  using dgpp::minijson::Member;
+  using dgpp::minijson::Value;
+  const Value* messages = globals.find("messages");
+  if (messages == nullptr || !messages->is_array()) return std::nullopt;
+  const auto is_system = [](const Value& m) {
+    const Value* role = m.find("role");
+    return role && role->as_string() == "system";
+  };
+  const auto& items = messages->items();
+  size_t lead = 0;
+  while (lead < items.size() && is_system(items[lead])) ++lead;
+  size_t late = 0;
+  for (size_t i = lead; i < items.size(); ++i) late += is_system(items[i]);
+  if (lead <= 1 && late == 0) return std::nullopt;
+
+  std::vector<Value> out;
+  out.reserve(items.size() - (lead > 0 ? lead - 1 : 0));
+  if (lead > 0) {
+    std::string merged;
+    for (size_t i = 0; i < lead; ++i) {
+      const Value* content = items[i].find("content");
+      const auto text = content ? system_text(*content) : std::nullopt;
+      if (!text) return std::nullopt;
+      if (text->empty()) continue;
+      if (!merged.empty()) merged += "\n\n";
+      merged += *text;
+    }
+    out.push_back(Value::make_object({Member{"role", Value::make_string("system")},
+                                      Member{"content", Value::make_owned_string(std::move(merged))}}));
+  }
+  for (size_t i = lead; i < items.size(); ++i) {
+    if (!is_system(items[i])) {
+      out.push_back(items[i]);
+      continue;
+    }
+    const Value* content = items[i].find("content");
+    if (content == nullptr || !system_text(*content)) return std::nullopt;
+    out.push_back(Value::make_object({Member{"role", Value::make_string("user")}, Member{"content", *content}}));
+  }
+
+  std::vector<Member> folded;
+  for (const Member& m : globals.members())
+    folded.push_back(m.key == "messages" ? Member{"messages", Value::make_array(std::move(out))} : m);
+  return Value::make_object(std::move(folded));
 }
 
 }  // namespace
@@ -1818,8 +1890,10 @@ bool GenerationService::validate_chat_parameters(const minijson::Value& body, Ht
   // and validate the fields we implement in their respective parsers.
   const std::unordered_set<std::string> unsupported = {
       "web_search_options", "functions", "function_call", "prompt_cache_options"};
+  // prompt_cache_key is only a routing hint for a cache; the prefix cache
+  // here matches prompts automatically, so the key is accepted and unused.
   const std::unordered_set<std::string> nullable_unsupported = {
-      "audio", "prediction", "moderation", "prompt_cache_key", "prompt_cache_retention", "verbosity"};
+      "audio", "prediction", "moderation", "prompt_cache_retention", "verbosity"};
   std::unordered_set<std::string> seen;
   for (const auto& m : body.members()) {
     if (!seen.insert(m.key).second) return refuse(m.key, "duplicate request parameter", "invalid_parameter");
@@ -2062,7 +2136,25 @@ void GenerationService::route_chat_completions(const HttpRequest& req,
   std::vector<int64_t> prompt;
   std::vector<ImageInput> images;
   try {
-    auto input = frontend_->prepare_chat(plan.globals);
+    ModelFrontend::ChatInput input;
+    try {
+      input = frontend_->prepare_chat(plan.globals);
+    } catch (const ImageInputError&) {
+      throw;
+    } catch (const std::exception& rejected) {
+      // Only when the template refuses: requests it renders keep their
+      // exact prompt. A retry that still fails reports the first error.
+      auto folded = fold_system_messages(plan.globals);
+      if (!folded) throw;
+      try {
+        input = frontend_->prepare_chat(*folded);
+      } catch (const ImageInputError&) {
+        throw;
+      } catch (const std::exception&) {
+        throw std::runtime_error(rejected.what());
+      }
+      plan.globals = std::move(*folded);
+    }
     prompt = std::move(input.tokens);
     images = std::move(input.images);
     validate_image_inputs(images, prompt.size());
