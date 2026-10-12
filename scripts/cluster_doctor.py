@@ -130,12 +130,15 @@ def command(argv, timeout=20, env=None):
     return subprocess.run(argv, capture_output=True, text=True, timeout=timeout, env=env)
 
 
-def server_version(binary, env=None):
-    """Apply the process swap policy to metadata probes as well as servers."""
+def server_version(binary, env=None, wrap=()):
+    """Apply the process swap policy to metadata probes as well as servers.
+
+    wrap prefixes the command as `up --head-wrap` prefixes rank 0's server
+    (e.g. nixglhost, which supplies the host driver to a Nix-built binary)."""
     no_swap = (os.environ if env is None else env).get("DGPP_NO_SWAP", "0")
     if no_swap not in ("0", "1"):
         raise ValueError("DGPP_NO_SWAP must be 0 or 1")
-    argv = [binary, "--version"]
+    argv = [*wrap, binary, "--version"]
     if no_swap == "1":
         # This module is sent alone to peer interpreters, so it cannot import
         # the process-control module used by long-running rank launches.
@@ -325,10 +328,11 @@ def probe(spec):
             record("server binary", "fail", f"missing executable {binary}; build dgpp_serve_app with libibverbs enabled")
         else:
             try:
-                libraries = command(["ldd", binary])
+                wrap = spec.get("wrap") or []
+                libraries = command([*wrap, "ldd", binary])
                 record("runtime libraries", "fail" if libraries.returncode or "not found" in libraries.stdout else "ok",
                        libraries.stdout.strip() if libraries.returncode or "not found" in libraries.stdout else "all binary dependencies resolve")
-                version = server_version(binary, env=env)
+                version = server_version(binary, env=env, wrap=wrap)
                 record("server version", "ok" if version.returncode == 0 else "fail", version.stdout.strip() or version.stderr.strip())
             except (OSError, subprocess.TimeoutExpired, ValueError) as error:
                 record("server binary", "fail", str(error))
@@ -348,7 +352,8 @@ def probe(spec):
     return {"rank": spec["rank"], "checks": checks, "devices": devices}
 
 
-def check_cluster(cfg, binary, log_dir, stage_dir, user, peer_binary=None, *, local_only=False, preparing=False):
+def check_cluster(cfg, binary, log_dir, stage_dir, user, peer_binary=None, *, local_only=False, preparing=False,
+                  head_wrap=()):
     reports = []
     for rank, host in enumerate(cfg["nodes"]):
         if local_only and rank:
@@ -360,6 +365,7 @@ def check_cluster(cfg, binary, log_dir, stage_dir, user, peer_binary=None, *, lo
                 "table_model": (cfg.get("engine", {}) or {}).get("ngram_table_model"),
                 "ports": cfg["ports"], "http_bind": cfg["http"]["bind_host"],
                 "env": probe_env, "binary": binary if rank == 0 else peer_binary,
+                "wrap": list(head_wrap) if rank == 0 else [],
                 "preparing": preparing,
                 "paths": {"logs/staging": log_dir if rank == 0 else stage_dir,
                           "resident cache": cfg["node_env"][rank].get("DGPP_RESIDENT_CACHE_DIR") or

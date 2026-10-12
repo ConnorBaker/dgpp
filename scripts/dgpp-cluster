@@ -388,7 +388,8 @@ class Cluster:
             import cluster_doctor
             say("=== checking deployment readiness on all nodes")
             if cluster_doctor.check_cluster(self.cfg, self.bin, self.log_dir, self.stage_dir, self.user,
-                                            self.peer_bin if self.installed else None):
+                                            self.peer_bin if self.installed else None,
+                                            head_wrap=self.head_wrap):
                 return 1
         if not self.stage():
             return 1
@@ -686,7 +687,8 @@ def main():
     if args.verb == "doctor":
         import cluster_doctor
         return cluster_doctor.check_cluster(c.cfg, c.bin, c.log_dir, c.stage_dir, c.user,
-                                            c.peer_bin if c.installed else None, local_only=args.local_only)
+                                            c.peer_bin if c.installed else None, local_only=args.local_only,
+                                            head_wrap=c.head_wrap)
     if args.verb == "install":
         if not args.tarball:
             ap.error("install needs the tarball")
