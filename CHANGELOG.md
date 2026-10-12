@@ -18,6 +18,21 @@ The history by milestone. The dated engineering record in
   `codex` and `litellm` from Nixpkgs, with an example proxy config and
   Codex profile in `deploy/` ([Codex](docs/codex.md)).
   serve_test 102/102.
+- **Parallel eager layer load** (2026-10-07):
+  `ResidentLayerStream::load_layers_parallel` (new): each worker owns a
+  pinned staging mirror and a CUDA stream, so checkpoint slicing, host
+  packs and H2D uploads overlap across layers; the disk still serializes
+  at its line rate. `ResidentImage` takes a mutex (entry snapshot under
+  lock, blobs move outside it; concurrent captures reserve disjoint
+  ranges). Opt-in via `DGPP_PRELOAD_THREADS` (unset keeps the serial
+  loop), wired in serve for Qwen/MiMo/GLM-4/GLM-DSA/DSV4/DSV41/Qwen35 and
+  in the DSV41/DSV4 eager constructors; `qwen_load_check --threads N`
+  benchmarks it. Measured Qwen3.8-Flash-Next/Spark: cold build ~76s ->
+  ~47s at 4 workers (boot ~96s -> ~56s); restores stay ~20s either way
+  (disk-bound). Serial vs parallel captures are bitwise identical
+  (per-layer bytes+fold), and the grant-tail `memset` makes all captures
+  deterministic. Loader suites green (qwen 9, glm 13, mimo 5, dsv41 6,
+  dsv4 4, glm_dsa 4, glm4 4).
 - **Qwen3.8-27B NVFP4: fp4w prefill GEMM** (2026-10-06):
   `launch_fp4w_gemm_*` (new): `fp8w_gemm`'s 128x128x64 tiles and
   three-stage pipeline with an e2m1 W-side (8 payload bytes + the
