@@ -1,0 +1,15 @@
+# LiteLLM proxy that serves the Responses API (Codex) over DGPP's Chat
+# Completions. See docs/codex.md. From the dev shell (nix develop):
+#
+#   litellm --config deploy/litellm-codex.example.yaml --host 127.0.0.1 --port 4000
+model_list:
+  - model_name: qwen3.8-flash-next
+    litellm_params:
+      # The openai/chat_completions/ prefix makes LiteLLM translate
+      # /v1/responses into chat completions; with plain openai/ it forwards
+      # /v1/responses, which DGPP does not serve.
+      model: openai/chat_completions/nvidia/Qwen3.8-Flash-Next-NVFP4
+      api_base: http://127.0.0.1:18080/v1
+      api_key: dgpp-local
+litellm_settings:
+  drop_params: true

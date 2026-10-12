@@ -1,0 +1,25 @@
+# Codex profile for DGPP through deploy/litellm-codex.example.yaml.
+# Copy to $CODEX_HOME/dgpp.config.toml (default ~/.codex) and run
+# `codex --profile dgpp`. It layers over the base config. See docs/codex.md.
+model = "qwen3.8-flash-next"
+model_provider = "dgpp"
+model_reasoning_effort = "medium"
+# DGPP has no reasoning summaries; with a summary requested, LiteLLM forwards
+# the whole reasoning object as reasoning_effort, which DGPP refuses.
+model_reasoning_summary = "none"
+model_context_window = 262144
+# Hosted search runs on OpenAI's servers; a local model cannot serve it.
+web_search = "disabled"
+# Commands run without Codex's sandbox and without approval prompts.
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
+
+[model_providers.dgpp]
+name = "DGPP (LiteLLM bridge)"
+base_url = "http://127.0.0.1:4000/v1"
+wire_api = "responses"
+
+[features]
+# ChatGPT apps/connectors add ~130 MCP tools (codex_apps); DGPP takes at
+# most 128 tools per request, and a local model gains little from them.
+apps = false

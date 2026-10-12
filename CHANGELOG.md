@@ -6,6 +6,18 @@ The history by milestone. The dated engineering record in
 
 ## Unreleased
 
+- **Agent clients through a Responses bridge** (2026-10-12): Codex via
+  LiteLLM's Responses-to-Chat bridge sends several developer messages,
+  one mid-conversation, and a `prompt_cache_key`. When the checkpoint's
+  template rejects the messages (Qwen3.8-Flash-Next: "System message must
+  be at the beginning."), `route_chat_completions` renders them again
+  with the leading system run merged and later system messages as user
+  messages; requests the template accepts render unchanged.
+  `prompt_cache_key` is accepted and unused (the prefix cache needs no
+  key); `prompt_cache_retention` is still refused. The dev shell provides
+  `codex` and `litellm` from Nixpkgs, with an example proxy config and
+  Codex profile in `deploy/` ([Codex](docs/codex.md)).
+  serve_test 102/102.
 - **Qwen3.8-27B NVFP4: fp4w prefill GEMM** (2026-10-06):
   `launch_fp4w_gemm_*` (new): `fp8w_gemm`'s 128x128x64 tiles and
   three-stage pipeline with an e2m1 W-side (8 payload bytes + the

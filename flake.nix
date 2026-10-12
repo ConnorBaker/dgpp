@@ -137,6 +137,10 @@
             ps.safetensors
             ps.tokenizers
           ]))
+          # Codex through the LiteLLM Responses bridge (docs/codex.md). Neither
+          # depends on CUDA, so cudaSupport leaves them as cached.
+          pkgs.codex
+          pkgs.litellm
           pkgs.coreutils
           pkgs.curl
           pkgs.glibc.bin # ldd
